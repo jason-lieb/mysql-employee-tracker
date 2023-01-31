@@ -1,4 +1,4 @@
-# mysql-employee-tracker
+# MySQL Employee Tracker
 ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ## Description
