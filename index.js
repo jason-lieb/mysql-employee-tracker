@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
-const cTable = require('console.table');
+require('console.table');
 
 const { mainQuestion } = require('./utils/questions.js');
 
@@ -15,26 +15,48 @@ const db = mysql.createConnection(
   console.log(`Connected to the employee_db database.`)
 )
 
-// db.query('SELECT * FROM students', (err, results) => {
-//   console.log(results);
-// })
+init();
 
 function init() {
-  inquirer.prompt(mainQuestion).then((data) => mainRoute(data.main));
+  inquirer
+    .prompt(mainQuestion)
+    .then((data) => mainRoute(data.main));
 };
-
-init();
 
 function mainRoute(input) {
   switch (input) {
     case 'View All Departments':
-      //
+      db.query('SELECT * FROM department', (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+        console.log('\n');
+        console.table(result);
+        init();
+        }
+      });
       break;
     case 'View All Roles':
-      //
+      db.query('SELECT * FROM role', (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+        console.log('\n');
+        console.table(result);
+        init();
+        }
+      });
       break;
     case 'View All Employees':
-      //
+      db.query('SELECT * FROM employee', (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log('\n');
+          console.table(result);
+          init();
+        }
+      });
       break;
     case 'Add A Department':
       //
@@ -48,16 +70,7 @@ function mainRoute(input) {
     case 'Update An Employee Role':
       //
       break;
+    case 'Quit':
+      db.end();
   }
 }
-
-
-
-/*
-
-Run schema.sql file once program starts
- - Drop if existing, recreate, and use database
- - define schema
-Load seed data
-
-*/
