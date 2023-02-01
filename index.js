@@ -1,62 +1,46 @@
 const inquirer = require('inquirer');
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 require('console.table');
 
 const { mainQuestion } = require('./utils/questions.js');
 
+const { departmentQuery, roleQuery, employeeQuery } = require('./utils/queries.js')
+
 const PORT = process.env.PORT || 5500;
 
-const db = mysql.createConnection(
-  {
-    host: 'localhost',
-    user: 'root',
-    database: 'employee_db'
-  },
-  console.log(`Connected to the employee_db database.`)
-)
+let db;
 
 init();
 
-function init() {
+async function init() {
+  db = await mysql.createConnection(
+    {
+      host: 'localhost',
+      user: 'root',
+      database: 'employee_db'
+    },
+    console.log(`Connected to the employee_db database.`)
+  )
+  askMain();
+}
+
+function askMain() {
   inquirer
     .prompt(mainQuestion)
     .then((data) => mainRoute(data.main));
 };
 
 function mainRoute(input) {
+  let result;
   switch (input) {
     case 'View All Departments':
-      db.query('SELECT * FROM department', (err, result) => {
-        if (err) {
-          console.log(err);
-        } else {
-        console.log('\n');
-        console.table(result);
-        init();
-        }
-      });
+      queryDB(departmentQuery);
       break;
     case 'View All Roles':
-      db.query('SELECT * FROM role', (err, result) => {
-        if (err) {
-          console.log(err);
-        } else {
-        console.log('\n');
-        console.table(result);
-        init();
-        }
-      });
+      queryDB(roleQuery);
       break;
     case 'View All Employees':
-      db.query('SELECT * FROM employee', (err, result) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log('\n');
-          console.table(result);
-          init();
-        }
-      });
+      queryDB(employeeQuery);
       break;
     case 'Add A Department':
       //
@@ -74,3 +58,10 @@ function mainRoute(input) {
       db.end();
   }
 }
+
+async function queryDB(query) {
+  result = await db.query(query);
+  console.log('\n');
+  console.table(result[0]);
+  setTimeout(askMain, 1000);
+};
