@@ -13,15 +13,19 @@ let db;
 init();
 
 async function init() {
-  db = await mysql.createConnection(
-    {
-      host: 'localhost',
-      user: 'root',
-      database: 'employee_db'
-    },
-    console.log(`Connected to the employee_db database.`)
-  )
-  askMain();
+  try {
+    db = await mysql.createConnection(
+      {
+        host: 'localhost',
+        user: 'root',
+        database: 'employee_db'
+      },
+      console.log(`Connected to the employee_db database.`)
+    )
+    askMain();
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 function askMain() {
@@ -60,8 +64,12 @@ function mainRoute(input) {
 }
 
 async function queryDB(query) {
-  result = await db.query(query);
-  console.log('\n');
-  console.table(result[0]);
-  setTimeout(askMain, 1000);
+  try {
+    result = await db.query(query);
+    console.log('\n');
+    console.table(result[0]);
+    setTimeout(askMain, 1000);
+  } catch (err) {
+    console.error(err);
+  }
 };
