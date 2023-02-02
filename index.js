@@ -4,7 +4,9 @@ require('console.table');
 
 const { mainQuestion } = require('./utils/questions.js');
 
-const { departmentQuery, roleQuery, employeeQuery } = require('./utils/queries.js')
+const { getDepartmentQuery, getRoleQuery, getEmployeeQuery } = require('./utils/getQueries.js');
+const { addDepartmentQuery, addRoleQuery, addEmployeeQuery } = require('./utils/addQueries.js');
+const { updateEmployeeRole } = require('./utils/updateQueries.js');
 
 const PORT = process.env.PORT || 5500;
 
@@ -38,16 +40,16 @@ function mainRoute(input) {
   let result;
   switch (input) {
     case 'View All Departments':
-      queryDB(departmentQuery);
+      queryDB(getDepartmentQuery);
       break;
     case 'View All Roles':
-      queryDB(roleQuery);
+      queryDB(getRoleQuery);
       break;
     case 'View All Employees':
-      queryDB(employeeQuery);
+      queryDB(getEmployeeQuery);
       break;
     case 'Add A Department':
-      //
+      // queryDB(addDepartmentQuery, 1, 2)
       break;
     case 'Add A Role':
       //
@@ -68,7 +70,7 @@ async function queryDB(query) {
     result = await db.query(query);
     console.log('\n');
     console.table(result[0]);
-    setTimeout(askMain, 1000);
+    setTimeout(askMain, 000);
   } catch (err) {
     console.error(err);
   }
