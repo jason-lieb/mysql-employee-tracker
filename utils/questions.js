@@ -15,39 +15,63 @@ const mainQuestion = {
 };
 
 const addDepartment = {
-  // 'type': 'list',
-  // 'message': 'What would you like to do?',
-  // 'name': 'main',
-  // 'choices': [
-  //   'View All Departments',
-  //   'View All Roles',
-  //   'View All Employees',
-  //   'Add A Department',
-  //   'Add A Role',
-  //   'Add An Employee',
-  //   'Update An Employee Role',
-  //   'Quit'
-  // ]
+  'type': 'input',
+  'message': 'What is the name of the department?',
+  'name': 'dept'
 };
-// What is the name of the department?
-// Success: Added {name} to the database
 
-const addEmployee = {};
-// What is the employee's first name?
-// What is the employee's last name?
-// What is the employee's role?
-// Who is the employee's manager? [Includes none]
-// Success
+const addRole = [{
+  'type': 'input',
+  'message': "What is the name of the role?",
+  'name': 'name'
+},
+{
+  'type': 'input',
+  'message': "What is the salary of the role?",
+  'name': 'salary'
+},
+{
+  'type': 'list',
+  'message': "Which department does the role belong to?",
+  'name': 'dept',
+  'choices': []
+}];;
 
-const addRole = {};
-// What is the name of the role?
-// What is the salary of the role?
-// Which department does the role belong to?
-// Success: Added {} to the database
+const addEmployee = [{
+  'type': 'input',
+  'message': "What is the employee's first name?",
+  'name': 'firstName'
+},
+{
+  'type': 'input',
+  'message': "What is the employee's last name?",
+  'name': 'lastName'
+},
+{
+  'type': 'list',
+  'message': "What is the employee's role?",
+  'name': 'role',
+  'choices': []
+},
+{
+  'type': 'list',
+  'message': "Who is the employee's manager?",
+  'name': 'manager',
+  'choices': ['None']
+}];
 
-const updateEmployee = {};
-// Which employee's role do you want to update? [List of employees (first and last)]
-// Which role do you want to assign the selected employee? [List of roles]
+const updateEmployee = [{
+  'type': 'list',
+  'message': "Which employee's role do you want to update?",
+  'name': 'employee',
+  'choices': []
+},
+{
+  'type': 'list',
+  'message': "Which role do you want to assign the selected employee?",
+  'name': 'role',
+  'choices': []
+}];
 // Success: Updated employee's role
 
-module.exports = { mainQuestion };
+module.exports = { mainQuestion, addDepartment, addRole, addEmployee, updateEmployee };
