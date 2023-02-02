@@ -7,7 +7,7 @@ A command line application using Node.js and MySQL to build an employee database
 
 ## Walkthrough Video
 
-[Walkthrough]()
+[Walkthrough](https://drive.google.com/file/d/1opi788FAL0SSy3kQc1Ltyho2RwWbna_N/view)
 
 ## Table of Contents
 

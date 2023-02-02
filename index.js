@@ -92,7 +92,7 @@ async function askEmployee() {
   addEmployee[3].choices = [...employees];
   inquirer
     .prompt(addEmployee)
-    .then((data) => addQueryDB(addEmployeeQuery, data.firstName, data.lastName, findIndex(roles, data.role), findIndex(employees, data.manager)));
+    .then((data) => addQueryDB(addEmployeeQuery, data.firstName, data.lastName, findIndex(roles, data.role), findIndex(employees, data.manager) - 1));
 }
 
 async function updateRole() {
