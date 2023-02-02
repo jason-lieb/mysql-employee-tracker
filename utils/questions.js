@@ -72,6 +72,5 @@ const updateEmployee = [{
   'name': 'role',
   'choices': []
 }];
-// Success: Updated employee's role
 
 module.exports = { mainQuestion, addDepartment, addRole, addEmployee, updateEmployee };

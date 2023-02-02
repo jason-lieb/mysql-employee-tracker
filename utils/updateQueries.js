@@ -1,3 +1,8 @@
-const updateEmployeeRole = ``;
+const updateEmployeeRoleQuery = `
+  UPDATE employee
+  SET
+    role_id = ?
+  WHERE id = ?
+  `;
 
-module.exports = { updateEmployeeRole };
+module.exports = { updateEmployeeRoleQuery };

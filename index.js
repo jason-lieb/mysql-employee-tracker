@@ -6,7 +6,7 @@ const { mainQuestion, addDepartment, addRole, addEmployee, updateEmployee  } = r
 
 const { getDepartmentQuery, getRoleQuery, getEmployeeQuery } = require('./utils/getQueries.js');
 const { addDepartmentQuery, addRoleQuery, addEmployeeQuery } = require('./utils/addQueries.js');
-const { updateEmployeeRole } = require('./utils/updateQueries.js');
+const { updateEmployeeRoleQuery } = require('./utils/updateQueries.js');
 const { helpDepartmentQuery, helpRoleQuery, helpEmployeeQuery } = require('./utils/helperQueries.js');
 
 const PORT = process.env.PORT || 5500;
@@ -52,7 +52,7 @@ function mainRoute(input) {
       askEmployee();
       break;
     case 'Update An Employee Role':
-      //
+      updateRole();
       break;
     case 'Quit':
       db.end();
@@ -95,6 +95,20 @@ async function askEmployee() {
     .then((data) => addQueryDB(addEmployeeQuery, data.firstName, data.lastName, findIndex(roles, data.role), findIndex(employees, data.manager)));
 }
 
+async function updateRole() {
+  const employeesQuery = await db.query(helpEmployeeQuery);
+  const rolesQuery = await db.query(helpRoleQuery);
+  let employees = [];
+  let roles = [];
+  employeesQuery[0].forEach((employee) => employees.push(employee.name));
+  rolesQuery[0].forEach((role) => roles.push(role.title));
+  updateEmployee[0].choices = [...employees];
+  updateEmployee[1].choices = [...roles];
+  inquirer
+    .prompt(updateEmployee)
+    .then((data) => updateQueryDB(updateEmployeeRoleQuery, findIndex(roles, data.role), findIndex(employees, data.employee)));
+}
+
 async function getQueryDB(query) {
   try {
     result = await db.query(query);
@@ -108,7 +122,7 @@ async function getQueryDB(query) {
 
 async function addQueryDB(query, ...args) {
   try {
-    result = await db.query(query, args);
+    await db.query(query, args);
     if (args.length < 4) {
       console.log(`Added ${args[0]} to the database.`);
     } else {
@@ -119,6 +133,16 @@ async function addQueryDB(query, ...args) {
     console.error(err);
   }
 };
+
+async function updateQueryDB(query, ...args) {
+  try {
+    await db.query(query, args);
+    console.log(`Updated Employee's role.`);
+    askMain();
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 function findIndex(array, item) {
   for (let i = 0; i < array.length; i++) {
